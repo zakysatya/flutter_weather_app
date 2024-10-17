@@ -293,11 +293,110 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                  )
+                  ),
+
                 ],
               ),
             ),
+            Container(
+              padding: const EdgeInsets.only(top: 10),
+              height: size.height * .20,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Today', style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      ),),
+                      GestureDetector(
+                        onTap: () => print('Tapped'), // open forecast screen
+                        child: Text('forecast', style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: _constants.primaryColor,
+                        ),),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  SizedBox(
+                    height: 110,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                        itemCount: 24,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                        String currentTime = DateFormat('HH:mm:ss').format(DateTime.now());
+                        String currentHour = currentTime.substring(0,2);
 
+                        String forecastTime = hourlyWeatherForecast[index]["time"].substring(11,16);
+                        String forecastHour = hourlyWeatherForecast[index]["time"].substring(11,13);
+
+                        String forecastWeatherName = hourlyWeatherForecast[index]["condition"]["text"];
+                        String forecastWeatherIcon = "${forecastWeatherName.replaceAll(' ', '').toLowerCase()}.png";
+
+                        String forecastTemperature = hourlyWeatherForecast[index]["temp_c"].round().toString();
+
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10,),
+                          margin: const EdgeInsets.only(right: 15),
+                          width: 65,
+                          decoration: BoxDecoration(
+                            color: currentHour == forecastHour ? Colors.white : _constants.primaryColor,
+                            borderRadius: const BorderRadius.all(Radius.circular(50)),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 5,
+                                color: _constants.primaryColor.withOpacity(.5),
+                              )
+                            ]
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(forecastTime, style: TextStyle(
+                                fontSize: 17,
+                                color: _constants.greyColor,
+                                fontWeight: FontWeight.w500,
+                              ),),
+                              Image.asset('assets/$forecastWeatherIcon', width: 20,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(forecastTemperature, style: TextStyle(
+                                    color: _constants.greyColor,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                  ),),
+                                  Text("℃", style: TextStyle(
+                                    color: _constants.greyColor,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                    fontFeatures: const [
+                                      FontFeature.enable('sups')
+                                    ],
+
+                                  ),),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                        },
+                    ),
+                  )
+
+                ],
+              ),
+            ),
           ],
         ),
       ),

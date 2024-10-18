@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:weather_app/constant.dart';
+import 'package:weather_app/ui/detail_page.dart';
 
 import '../components/weather_item.dart';
 
@@ -277,16 +278,19 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         WeatherItem(
+                          // text: 'Wind Speed',
                           value: windSpeed.toInt(),
                           unit: 'km/h',
                           imageUrl: 'assets/windspeed.png',
                         ),
                         WeatherItem(
+                          // text: 'Humidity',
                           value: humidity.toInt(),
                           unit: '%',
                           imageUrl: 'assets/humidity.png',
                         ),
                         WeatherItem(
+                          // text: 'Cloud',
                           value: cloud.toInt(),
                           unit: '%',
                           imageUrl: 'assets/cloud.png',
@@ -314,7 +318,10 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 20.0,
                       ),),
                       GestureDetector(
-                        onTap: () => print('Tapped'), // open forecast screen
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DetailPage(dailyForecastWeather: dailyWeatherForecast,),),
+                        ), // open forecast screen
                         child: Text('forecast', style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -330,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                     height: 110,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                        itemCount: 24,
+                        itemCount: hourlyWeatherForecast.length,
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                         String currentTime = DateFormat('HH:mm:ss').format(DateTime.now());

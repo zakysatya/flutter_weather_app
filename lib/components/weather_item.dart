@@ -4,15 +4,21 @@ class WeatherItem extends StatelessWidget {
   final int value;
   final String unit;
   final String imageUrl;
+  // final String text;
 
   const WeatherItem({
     super.key, required this.value, required this.unit, required this.imageUrl,
+    // required this.text,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Text(text, style: const TextStyle(
+        //   color: Colors.white,
+        //   fontSize: 14,
+        // ),),
         Container(
           padding: const EdgeInsets.all(10),
           height: 60,
